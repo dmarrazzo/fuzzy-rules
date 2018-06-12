@@ -1,0 +1,35 @@
+package example
+
+import example.model.Person;
+
+global example.fuzzy.FuzzySet ageSet;
+
+rule "fuzzy young"
+
+    when
+        $p : Person ( ageSet.is( age, "young") )
+        
+    then
+        System.out.println( $p.getName() + " is young" );
+
+end
+
+rule "fuzzy mature"
+
+    when
+        $p : Person ( ageSet.is( age, "mature") )
+        
+    then
+        System.out.println( $p.getName() + " is mature" );
+
+end
+
+rule "fuzzy old"
+
+    when
+        $p : Person ( ageSet.is( age, "old") )
+        
+    then
+        System.out.println( $p.getName() + " is old" );
+
+end
