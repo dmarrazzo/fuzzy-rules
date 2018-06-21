@@ -9,6 +9,7 @@ import org.kie.api.runtime.KieSession;
 
 import example.fuzzy.FuzzySet;
 import example.fuzzy.FuzzyTrapezoid;
+import example.model.CaseDataImpl;
 import example.model.Person;
 
 public class LocalTest {
@@ -35,7 +36,7 @@ public class LocalTest {
 		return kieContainer;
 	}
 
-	@Test
+//	@Test
 	public void test() {
 		FuzzySet ageSet = new FuzzySet();
 		ageSet.add(new FuzzyTrapezoid("young", 0, 0, 20, 31));
@@ -56,6 +57,32 @@ public class LocalTest {
 
 		// -------------
 
+		ksession.fireAllRules();
+
+		// Collection<FactHandle> factHandles = ksession.getFactHandles();
+	}
+
+	@Test
+	public void caseTest() {
+		FuzzySet ageSet = new FuzzySet();
+		ageSet.add(new FuzzyTrapezoid("young", 0, 0, 20, 31));
+		ageSet.add(new FuzzyTrapezoid("mature", 14, 24, 60, 66));
+		ageSet.add(new FuzzyTrapezoid("old", 53, 64, 150, 150));
+		
+		ksession.setGlobal("ageSet", ageSet);
+		
+		CaseDataImpl caseData = new CaseDataImpl();
+		// -------------
+		Person person1 = new Person("adam", 22);
+		Person person2 = new Person("Jim", 22);
+		caseData.add("person1", person1);
+		caseData.add("person2", person2);
+		ksession.insert(caseData);
+
+
+		// -------------
+
+		ksession.getAgenda().getAgendaGroup("case").setFocus();
 		ksession.fireAllRules();
 
 		// Collection<FactHandle> factHandles = ksession.getFactHandles();

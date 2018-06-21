@@ -4,11 +4,13 @@ import example.model.Person;
 
 global example.fuzzy.FuzzySet ageSet;
 
+
+
+
 rule "fuzzy young"
 
     when
         $p : Person ( ageSet.is( age, "young") )
-        
     then
         System.out.println( $p.getName() + " is young" );
 
